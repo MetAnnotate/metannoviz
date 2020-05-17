@@ -1,7 +1,7 @@
 # Testing data files
-metannotate_data_filepath <- "../test-data/inputs/rpoB_0_MetagenomeTest_0_annotations_5z4KAl762541689.tsv"
-hmm_info_filepath <- "../test-data/inputs/hmm_info_template_FILLED.tsv"
-dataset_info_filepath <- "../test-data/inputs/dataset_info_template_FILLED.tsv"
+metannotate_data_filepath <- "../test-data/inputs/rpoB_annotations.tsv"
+hmm_info_filepath <- "../test-data/inputs/hmm_info.tsv"
+dataset_info_filepath <- "../test-data/inputs/dataset_info.tsv"
 
 test_read_1_md5 <- read_metannotate_data(metannotate_data_filepath) %>%
   digest::digest("md5")
