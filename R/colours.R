@@ -33,13 +33,12 @@ choose_discrete_colour_scale <- function(number_of_entries) {
 
 #' Generates colour for a metannotate barplot
 #' 
-#' @param metannotate_data_normalized Tibble of normalized metannotate data - see
-#' \code{\link{normalize_collapsed_metannotate_data}}
+#' @param metannotate_data Tibble of normalized metannotate data - see \code{\link{normalize}}
 #' @return a tibble of unique taxa with HTML colour codes in the 'colour' column
 #' @keywords internal
-generate_plotting_colours <- function(metannotate_data_normalized) {
+generate_plotting_colours <- function(metannotate_data) {
   
-  plotting_colour_data <- dplyr::ungroup(metannotate_data_normalized) %>%
+  plotting_colour_data <- dplyr::ungroup(metannotate_data) %>%
     dplyr::select(-percent_abundance, -Dataset, -HMM.Family) %>%
     unique() %>%
     dplyr::arrange_all() # Sort by domain, phylum, and so on (in that order)
@@ -62,15 +61,15 @@ generate_plotting_colours <- function(metannotate_data_normalized) {
 #' Generates colour for a metannotate barplot or loads user-defined colours
 #' 
 #' @description A wrapper for \code{\link{generate_plotting_colours}} to handle bigger-picture decision making
-#' @param metannotate_data_normalized Tibble of normalized metannotate data - see
-#' \code{\link{normalize_collapsed_metannotate_data}}
+#' @param metannotate_data Tibble of normalized metannotate data - see
+#' \code{\link{normalize}}
 #' @param colouring_template_filename Filename of the colouring template you want to load
 #' If the file does not exist, then this function will write a template to that file
 #' If 'NA' is entered, then the function will auto-generate colours and continue on
 #' @return a tibble of unique taxa with HTML colour codes in the 'colour' column
-process_plotting_colours <- function(metannotate_data_normalized, colouring_template_filename = NA) {
+process_plotting_colours <- function(metannotate_data, colouring_template_filename = NA) {
 
-  plotting_colour_data <- generate_plotting_colours(metannotate_data_normalized)
+  plotting_colour_data <- generate_plotting_colours(metannotate_data)
 
   if (is.na(colouring_template_filename) == TRUE) {
     

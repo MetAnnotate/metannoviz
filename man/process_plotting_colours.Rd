@@ -4,14 +4,11 @@
 \alias{process_plotting_colours}
 \title{Generates colour for a metannotate barplot or loads user-defined colours}
 \usage{
-process_plotting_colours(
-  metannotate_data_normalized,
-  colouring_template_filename = NA
-)
+process_plotting_colours(metannotate_data, colouring_template_filename = NA)
 }
 \arguments{
-\item{metannotate_data_normalized}{Tibble of normalized metannotate data - see
-\code{\link{normalize_collapsed_metannotate_data}}}
+\item{metannotate_data}{Tibble of normalized metannotate data - see
+\code{\link{normalize}}}
 
 \item{colouring_template_filename}{Filename of the colouring template you want to load
 If the file does not exist, then this function will write a template to that file

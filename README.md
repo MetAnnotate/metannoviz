@@ -67,9 +67,9 @@ setup_templates <- create_setup_templates(metannotate_data, write_tables = TRUE,
 metannotate_data_mapped <- map_naming_information(metannotate_data, hmm_naming_info_filename, dataset_naming_info_filename)
 
 # Explore the data, tweaking settings until you're satisfied
-explore_metannotate_data(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
-                         normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
-                         colouring_template_filename = NA, plot_type = "bar")
+explore(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
+        normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
+        colouring_template_filename = NA, plot_type = "bar")
 
 # Further beautify the plot with a colouring_template_filename if interested.
 ```
@@ -170,9 +170,9 @@ This function can ultimately be used to make nearly publication-ready plots usin
 
 Example usage:
 ```R
-metannotate_plot <- explore_metannotate_data(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
-                                             normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
-                                             colouring_template_filename = NA, plot_type = "bar")
+metannotate_plot <- explore(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
+                            normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
+                            colouring_template_filename = NA, plot_type = "bar")
 print(metannotate_plot)
 ```
 
@@ -251,9 +251,9 @@ be more meaningful.
 Run your plot's code again, but specify a save location for the `colouring_template_filename` instead of `NA`. 
 This file should NOT already exist. E.g.,
 ```R
-metannotate_plot <- explore_metannotate_data(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
-                                             normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
-                                             plot_type = "bar", colouring_template_filename = "colouring_template.tsv")
+metannotate_plot <- explore(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
+                            normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
+                            plot_type = "bar", colouring_template_filename = "colouring_template.tsv")
 ```
 
 This will write `colouring_template.tsv` to your working directory. The file looks something like this 
@@ -308,9 +308,9 @@ Syntrophales	#D177FF
 Once done, you can specify the final filename as `colouring_template_filename` and then run again. For example, if you 
 renamed your final file `colouring_guide.tsv`:
 ```R
-metannotate_plot <- explore_metannotate_data(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
-                                             normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
-                                             plot_type = "bar", colouring_template_filename = "colouring_guide.tsv")
+metannotate_plot <- explore(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
+                            normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
+                            plot_type = "bar", colouring_template_filename = "colouring_guide.tsv")
 print(metannotate_plot)
 ```
 
@@ -347,7 +347,7 @@ possess two copies of that gene, and so on).
 * The top specified taxa are shown as coloured bars (as specified by the user)
 
 ## Appendix: advanced usage
-You can use individual functions in the package in place of `explore_metannotate_data()` for finer control.
+You can use individual functions in the package in place of `explore()` for finer control.
 
 Rapid example:
 ```R
@@ -370,15 +370,15 @@ metannotate_data_mapped <- map_naming_information(metannotate_data, hmm_naming_i
 ### Now things start to look different
 
 # Pre-process the data (three functions here)
-metannotate_data_processed_list <- filter_by_evalue(metannotate_data_mapped, evalue = 1e-10)[[1]] %>%
-  collapse_metannotate_table_by_taxon(taxon = "Family") %>%
-  normalize_collapsed_metannotate_data(normalizing_HMM = "rpoB")
+metannotate_data_filtered <- filter_by_evalue(metannotate_data_mapped, evalue = 1e-10)
+metannotate_data_collapsed <- collapse_by_taxon(metannotate_data_filtered, taxon = "Family")
+metannotate_data_normalized_list <- normalize(metannotate_data_collapsed, normalizing_HMM = "rpoB")
 
 # Plot the data
-metannotate_plot <- metannotate_plotter(metannotate_data_processed_list , colouring_template_filename = NA,
-                                        top_x = NA, percent_mode = "within_sample", normalizing_HMM = "auto",
-                                        plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, plot_type = "bar",
-                                        space = "free", bubble_size_range = c(1,20), alpha = 0.8, bubble_labels = TRUE)
+metannotate_plot <- visualize(metannotate_data_normalized_list , colouring_template_filename = NA,
+                              top_x = NA, percent_mode = "within_sample", normalizing_HMM = "auto",
+                              plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, plot_type = "bar",
+                              space = "free", bubble_size_range = c(1,20), alpha = 0.8, bubble_labels = TRUE)
 # Further beautify the plot with a colouring_template_filename if interested.
 
 # You can find out more on each of these functions using the ? notation (e.g., ?metannoviz::filter_by_evalue() )
