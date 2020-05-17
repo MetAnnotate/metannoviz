@@ -1,5 +1,4 @@
 # Testing data files
-# TODO - is there a better place to store these?
 metannotate_data_filepath <- "../test-data/inputs/rpoB_0_MetagenomeTest_0_annotations_5z4KAl762541689.tsv"
 hmm_info_filepath <- "../test-data/inputs/hmm_info_template_FILLED.tsv"
 dataset_info_filepath <- "../test-data/inputs/dataset_info_template_FILLED.tsv"
