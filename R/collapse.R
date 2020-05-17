@@ -4,19 +4,19 @@
 
 #' Collapses metannotate table to the given taxonomic rank
 #'
-#' @aliases collapse
+#' @aliases collapse collapse_metannotate_table_by_taxon
 #' @param metannotate_data Tibble of metannotate data
 #' @param taxon Character vector (length 1) giving the taxon name to collapse to
 #' Can be: domain, phylum, class, order, family, genus, species (case insensitive)
 #' @return Tibble of metannotate data, collapsed with a 'hits' column
 #' @export
-collapse_metannotate_table_by_taxon <- function(metannotate_data, taxon = "Family") {
+collapse_by_taxon <- function(metannotate_data, taxon = "Family") {
   # # N.B., Expected column names of a metannotate table:
-  # [1] "Dataset"                      "HMM.Family"                   "ORF"                         
-  # [4] "HMM.E.val"                    "Aligned.Length"               "Closest.Homolog"             
-  # [7] "X.id.of.Closest.Homolog"      "Closest.Homolog.Species"      "Closest.Homolog.Genus"       
-  # [10] "Closest.Homolog.Family"       "Closest.Homolog.Order"        "Closest.Homolog.Class"       
-  # [13] "Closest.Homolog.Phylum"       "Closest.Homolog.Superkingdom" "HMM_length"   
+  # [1] "Dataset"                      "HMM.Family"                   "ORF"
+  # [4] "HMM.E.val"                    "Aligned.Length"               "Closest.Homolog"
+  # [7] "X.id.of.Closest.Homolog"      "Closest.Homolog.Species"      "Closest.Homolog.Genus"
+  # [10] "Closest.Homolog.Family"       "Closest.Homolog.Order"        "Closest.Homolog.Class"
+  # [13] "Closest.Homolog.Phylum"       "Closest.Homolog.Superkingdom" "HMM_length"
 
   # Check if user-supplied taxonomy is correct
   if ((tolower(taxon) %in% dplyr::pull(TAXONOMY_NAMING, taxonomy)) == FALSE) {
@@ -33,6 +33,6 @@ collapse_metannotate_table_by_taxon <- function(metannotate_data, taxon = "Famil
   # Summarize the table, keeping all taxonomic ranks above the desired cutoff
   metannotate_summ <- dplyr::group_by_at(metannotate_data, colnames_to_keep) %>%
     dplyr::summarise(hits = n())
-  
+
   return(metannotate_summ)
 }
