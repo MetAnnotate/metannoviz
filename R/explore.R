@@ -4,9 +4,9 @@
 
 #' Explore MetAnnotate data
 #'
-#' @aliases explore metannotate
+#' @aliases explore_metannotate_data metannotate metannoviz
 #' @description high-level exploration function for examining MetAnnotate data
-#' @param metannotate_data_mapped The tibble output by \code{\link{map_naming_information}}
+#' @param metannotate_data The mapped metannotate tibble output by \code{\link{map_naming_information}}
 #' @param evalue E-value cutoff for HMM hits
 #' @param taxon Character vector (length 1) giving the taxon name to collapse to
 #' Can be: domain, phylum, class, order, family, genus, species (case insensitive)
@@ -23,41 +23,56 @@
 #' @param colouring_template_filename Filename of the colouring template you want to load
 #' If the file does not exist, then this function will write a template to that file
 #' If 'NA' is entered, then the function will auto-generate colours and continue on
-#' @param ... Other fine-tuned plotting options controlled by \code{\link{metannotate_plotter}} and the underlying
-#' \code{\link{metannotate_ggplot}}. Highlights include plot_type, which can be "bar" or "bubble"
+#' @param quietly logical (TRUE/FALSE); if TRUE, only reports warnings and errors
+#' @param ... Other fine-tuned plotting options controlled by \code{\link{visualize}} and the underlying
+#' \code{\link{generate_ggplot}}. Highlights include plot_type, which can be "bar" or "bubble"
 #' @return A ggplot of MetAnnotate data
 #' @export
-explore_metannotate_data <- function(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
-                                     normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
-                                     colouring_template_filename = NA, ...) {
-  
+explore <- function(metannotate_data, evalue = 1e-10, taxon = "Family",
+                    normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
+                    colouring_template_filename = NA, quietly = FALSE, ...) {
+
+  if (quietly == TRUE) {
+    flog.threshold(WARN)
+  }
+
+  # Check metannotate data has been mapped
+  # TODO - consider making a more exhaustive data check
+  if ("HMM_length" %in% colnames(metannotate_data) == FALSE) {
+    stop(paste0("Provided metannotate_data table does not contain the expected 'HMM_length' column. "),
+         "Are you sure that you have already run map_naming_information()?")
+  }
+
   # Filter by e-value cutoff and report stats to user
   flog.info(paste0("Filtering by e-value cutoff of ", evalue))
-  metannotate_data_filtered <- filter_by_evalue(metannotate_data_mapped, evalue = evalue)
+  metannotate_data_filtered <- filter_by_evalue(metannotate_data, evalue = evalue)
   metannotate_data <- metannotate_data_filtered$metannotate_data
   flog.info("Percent change from e-value filtration:")
-  print(metannotate_data_filtered$read_counts$percent_change)
+  if (quietly == FALSE) {
+    print(metannotate_data_filtered$read_counts$percent_change)
+  }
   # TODO - optionally output the info to the user
   
   # Collapse the table to the desired taxonomic rank
   flog.info(paste0("Collapsing table to taxonomic rank '", taxon, "'"))
-  metannotate_data_collapsed <- collapse_metannotate_table_by_taxon(metannotate_data, taxon = taxon)
+  metannotate_data_collapsed <- collapse_by_taxon(metannotate_data, taxon = taxon)
   
   # Normalize the data by HMM length
   flog.info("Normalizing data")
-  metannotate_data_normalized_list <- normalize_collapsed_metannotate_data(metannotate_data_collapsed, 
-                                                                           normalizing_HMM = normalizing_HMM)
+  metannotate_data_normalized_list <- normalize(metannotate_data_collapsed, normalizing_HMM = normalizing_HMM)
   flog.info("Total normalized % abundance of analyzed genes compared to the marker gene:")
-  print(metannotate_data_normalized_list$total_normalized_hits)
-  
+  if (quietly == FALSE) {
+    print(metannotate_data_normalized_list$total_normalized_hits)
+  }
+
   # Make plots
   flog.info("Plotting data")
-  metannotate_plot <- metannotate_plotter(metannotate_data_normalized_list = metannotate_data_normalized_list,
-                                          colouring_template_filename = colouring_template_filename,
-                                          top_x = top_x,
-                                          percent_mode = percent_mode,
-                                          normalizing_HMM = normalizing_HMM,
-                                          ...)
+  metannotate_plot <- visualize(metannotate_data_normalized_list = metannotate_data_normalized_list,
+                                colouring_template_filename = colouring_template_filename,
+                                top_x = top_x,
+                                percent_mode = percent_mode,
+                                normalizing_HMM = normalizing_HMM,
+                                ...)
 
   return(metannotate_plot)
 }
