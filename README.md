@@ -28,6 +28,7 @@ dplyr (>= 0.8)
 tidyr
 scales
 ggplot2 (>= 3.0)
+digest
 ```
 
 ## Usage

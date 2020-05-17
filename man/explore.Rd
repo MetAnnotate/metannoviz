@@ -15,6 +15,7 @@ explore(
   top_x = 0.02,
   percent_mode = "within_sample",
   colouring_template_filename = NA,
+  quietly = FALSE,
   ...
 )
 }
@@ -44,6 +45,8 @@ show some of the taxa that were hit. This would be a good time to use 'within_HM
 \item{colouring_template_filename}{Filename of the colouring template you want to load
 If the file does not exist, then this function will write a template to that file
 If 'NA' is entered, then the function will auto-generate colours and continue on}
+
+\item{quietly}{logical (TRUE/FALSE); if TRUE, only reports warnings and errors}
 
 \item{...}{Other fine-tuned plotting options controlled by \code{\link{visualize}} and the underlying
 \code{\link{generate_ggplot}}. Highlights include plot_type, which can be "bar" or "bubble"}

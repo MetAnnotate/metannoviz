@@ -23,13 +23,18 @@
 #' @param colouring_template_filename Filename of the colouring template you want to load
 #' If the file does not exist, then this function will write a template to that file
 #' If 'NA' is entered, then the function will auto-generate colours and continue on
+#' @param quietly logical (TRUE/FALSE); if TRUE, only reports warnings and errors
 #' @param ... Other fine-tuned plotting options controlled by \code{\link{visualize}} and the underlying
 #' \code{\link{generate_ggplot}}. Highlights include plot_type, which can be "bar" or "bubble"
 #' @return A ggplot of MetAnnotate data
 #' @export
 explore <- function(metannotate_data, evalue = 1e-10, taxon = "Family",
                     normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
-                    colouring_template_filename = NA, ...) {
+                    colouring_template_filename = NA, quietly = FALSE, ...) {
+
+  if (quietly == TRUE) {
+    flog.threshold(WARN)
+  }
 
   # Check metannotate data has been mapped
   # TODO - consider making a more exhaustive data check
@@ -43,7 +48,9 @@ explore <- function(metannotate_data, evalue = 1e-10, taxon = "Family",
   metannotate_data_filtered <- filter_by_evalue(metannotate_data, evalue = evalue)
   metannotate_data <- metannotate_data_filtered$metannotate_data
   flog.info("Percent change from e-value filtration:")
-  print(metannotate_data_filtered$read_counts$percent_change)
+  if (quietly == FALSE) {
+    print(metannotate_data_filtered$read_counts$percent_change)
+  }
   # TODO - optionally output the info to the user
   
   # Collapse the table to the desired taxonomic rank
@@ -54,8 +61,10 @@ explore <- function(metannotate_data, evalue = 1e-10, taxon = "Family",
   flog.info("Normalizing data")
   metannotate_data_normalized_list <- normalize(metannotate_data_collapsed, normalizing_HMM = normalizing_HMM)
   flog.info("Total normalized % abundance of analyzed genes compared to the marker gene:")
-  print(metannotate_data_normalized_list$total_normalized_hits)
-  
+  if (quietly == FALSE) {
+    print(metannotate_data_normalized_list$total_normalized_hits)
+  }
+
   # Make plots
   flog.info("Plotting data")
   metannotate_plot <- visualize(metannotate_data_normalized_list = metannotate_data_normalized_list,
