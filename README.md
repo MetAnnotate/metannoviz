@@ -1,4 +1,6 @@
 # metannoviz
+[![GitHub release](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
+
 A simple R package to process output from [MetAnnotate](http://github.com/metannotate/metannotate)
 
 In short, __metannoviz__ generates bar charts or bubble plots of major taxa in a sample based on taxonomic or functional genes.
