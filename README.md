@@ -8,11 +8,20 @@ In short, __metannoviz__ generates bar charts or bubble plots of major taxa in a
 Replaces the deprecated [metannotate-analysis](http://github.com/jmtsuji/metannotate-analysis) repo.
 
 ## Installation
-You can be up and running with three commands in your R console:
+You can be up and running with the latest full release by running three commands in your R console:
 ```R
 library(devtools)
-devtools::install_github("https://github.com/metannotate/metannoviz")
+devtools::install_github("metannotate/metannoviz@*release")
 library(metannoviz)
+```
+
+Here are some more nuanced `devtools` commands to get a specific code version:
+```R
+# Rather than getting the latest release, get a release with a specific version number, e.g., 1.0.0
+devtools::install_github("metannotate/metannoviz@1.0.0")
+
+# For the latest (but not necessarily stable!) features, install from the unreleased master branch of the repo
+devtools::install_github("metannotate/metannoviz@master")
 ```
 
 ### Dependencies
