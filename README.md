@@ -25,7 +25,7 @@ devtools::install_github("metannotate/metannoviz@master")
 ```
 
 ### Dependencies
-You'll need R >= 3.2 installed on your machine, along with the `devtools` package (as seen above).  
+You'll need R >= 3.5 installed on your machine, along with the `devtools` package (as seen above).  
 
 The following additional R packages will be installed during `devtools::install_github()` above:
 ```

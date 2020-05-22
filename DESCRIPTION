@@ -15,7 +15,7 @@ Authors@R:
            email = "jackson.tsuji@uwaterloo.ca",
            comment = c(ORCID = "0000-0001-7244-4709"))
 Depends:
-    R (>= 3.2)
+    R (>= 3.5)
 Imports: futile.logger,
     tools,
     glue (>= 1.2),
