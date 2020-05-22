@@ -16,8 +16,8 @@ This package facilitates downstream analysis after using
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/jmtsuji/metannotate-analysis}
-  \item Report bugs at \url{https://github.com/jmtsuji/metannotate-analysis/issues}
+  \item \url{https://github.com/metannotate/metannoviz}
+  \item Report bugs at \url{https://github.com/metannotate/metannoviz/issues}
 }
 
 }
