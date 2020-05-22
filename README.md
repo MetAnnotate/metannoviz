@@ -1,5 +1,5 @@
 # metannoviz
-[![GitHub release](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
+[![GitHub release](https://img.shields.io/badge/Version-1.0.1-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
 
 A simple R package to process output from [MetAnnotate](http://github.com/metannotate/metannotate)
 
