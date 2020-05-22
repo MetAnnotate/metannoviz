@@ -42,6 +42,14 @@ ggplot2 (>= 3.0)
 digest
 ```
 
+### Testing
+For developers: if you want to test the code, then clone the Github repo, open a R console, change the 
+working directory to the repo location, and then run:
+```R
+devtools::test()
+```
+You'll see a summary of what tests are passing/failing.
+
 ## Usage
 ### Before starting
 You'll need to run the [MetAnnotate](http://github.com/metannotate/metannotate) pipeline on your unassembled metagenome 
