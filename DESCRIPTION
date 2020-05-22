@@ -1,5 +1,5 @@
 Package: metannoviz
-Version: 1.0.0
+Version: 1.0.1
 Title: Process and visualize output from the MetAnnotate pipeline
 Description:
     This package facilitates downstream analysis after using
