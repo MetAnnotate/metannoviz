@@ -27,8 +27,8 @@ Imports: futile.logger,
     scales,
     ggplot2 (>= 3.0)
 License: BSD_3_clause + file LICENSE
-URL: https://github.com/jmtsuji/metannotate-analysis
-BugReports: https://github.com/jmtsuji/metannotate-analysis/issues
+URL: https://github.com/metannotate/metannoviz
+BugReports: https://github.com/metannotate/metannoviz/issues
 LazyData: true
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
