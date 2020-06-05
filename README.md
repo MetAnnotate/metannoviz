@@ -13,7 +13,11 @@ You can be up and running with the latest full release by running three commands
 library(devtools)
 devtools::install_github("metannotate/metannoviz@*release")
 library(metannoviz)
+
+# Note: on some systems, you need to restart R to view the documentation for the new package. E.g., in Rstudio, run
+.rs.restartR()
 ```
+The restart R issue (I think) is the same as described [here](https://github.com/r-lib/devtools/issues/419) and [here](https://stackoverflow.com/a/34008352). 
 
 Here are some more nuanced `devtools` commands to get a specific code version:
 ```R
