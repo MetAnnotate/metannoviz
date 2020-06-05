@@ -15,17 +15,16 @@ Authors@R:
            email = "jackson.tsuji@uwaterloo.ca",
            comment = c(ORCID = "0000-0001-7244-4709"))
 Depends:
-    R (>= 3.5)
+    R (>= 3.5),
+	dplyr (>= 0.8),
+	ggplot2 (>= 3.0)
 Imports: futile.logger,
-    tools,
     glue (>= 1.2),
     tibble (>= 2.0),
     tidyselect,
     plyr (>= 1.7),
-    dplyr (>= 0.8),
     tidyr,
-    scales,
-    ggplot2 (>= 3.0)
+    scales
 License: BSD_3_clause + file LICENSE
 URL: https://github.com/metannotate/metannoviz
 BugReports: https://github.com/metannotate/metannoviz/issues

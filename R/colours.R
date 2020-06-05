@@ -11,7 +11,7 @@
 #' @export
 choose_discrete_colour_scale <- function(number_of_entries) {
   
-  flog.debug(paste0("Generating ", number_of_entries, " colours"))
+  futile.logger::flog.debug(paste0("Generating ", number_of_entries, " colours"))
   
   # Choose the best colour scale based on the number of entries to be plotted
   if ( number_of_entries == 1 ) {
@@ -47,11 +47,11 @@ generate_plotting_colours <- function(metannotate_data) {
   plotting_taxon_colname <- TAXONOMY_NAMING$metannotate_colnames[
     TAXONOMY_NAMING$metannotate_colnames %in% colnames(plotting_colour_data)] %>%
     tail(n = 1)
-  flog.debug(paste0("Plotting column auto-detected as '", plotting_taxon_colname, "'."))
+  futile.logger::flog.debug(paste0("Plotting column auto-detected as '", plotting_taxon_colname, "'."))
 
   unique_taxa <- dplyr::pull(plotting_colour_data, plotting_taxon_colname)
 
-  flog.info(paste0("Generating automatic colour scheme for ", length(unique_taxa), " unique taxa"))
+  futile.logger::flog.info(paste0("Generating automatic colour scheme for ", length(unique_taxa), " unique taxa"))
   
   plotting_colour_data$colour <- choose_discrete_colour_scale(length(unique_taxa))
   
@@ -73,16 +73,16 @@ process_plotting_colours <- function(metannotate_data, colouring_template_filena
 
   if (is.na(colouring_template_filename) == TRUE) {
     
-    flog.debug("Generated plotting colour template without writing to file")
+    futile.logger::flog.debug("Generated plotting colour template without writing to file")
     
   } else if (file.exists(colouring_template_filename) == FALSE) {
     
-    flog.info(paste0("Saving plot colour template to '", colouring_template_filename, "'"))
+    futile.logger::flog.info(paste0("Saving plot colour template to '", colouring_template_filename, "'"))
     write.table(plotting_colour_data, colouring_template_filename, sep = "\t", row.names = FALSE,
                 col.names = TRUE, quote = FALSE)
     
   } else if (file.exists(colouring_template_filename) == TRUE) {
-    flog.info(paste0("Loading plot colour template from '", colouring_template_filename, "'"))
+    futile.logger::flog.info(paste0("Loading plot colour template from '", colouring_template_filename, "'"))
 
     user_plotting_colour_data <- read.table(colouring_template_filename, sep = "\t", header = TRUE,
                                    comment.char = "", stringsAsFactors = FALSE) %>%
