@@ -18,7 +18,7 @@ library(metannoviz)
 Here are some more nuanced `devtools` commands to get a specific code version:
 ```R
 # Rather than getting the latest release, get a release with a specific version number, e.g., 1.0.0
-devtools::install_github("metannotate/metannoviz@1.0.1")
+devtools::install_github("metannotate/metannoviz@v1.0.1")
 
 # For the latest (but not necessarily stable!) features, install from the unreleased master branch of the repo
 devtools::install_github("metannotate/metannoviz@master")
