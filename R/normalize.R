@@ -85,22 +85,22 @@ normalize <- function(metannotate_data, normalizing_HMM = "rpoB") {
 filter_by_abundance <- function(metannotate_data, top_x, percent_mode = "within_sample") {
   # Parse the top_x value to determine what the user wants
   if (is.na(top_x) == TRUE) {
-    flog.info("Not filtering by abundance because 'top_x' was set as NA")
+    futile.logger::flog.info("Not filtering by abundance because 'top_x' was set as NA")
 
   } else if (top_x >= 1) {
-    flog.info(paste0("Subsetting to the top ", top_x, " most abundant taxa per sample"))
+    futile.logger::flog.info(paste0("Subsetting to the top ", top_x, " most abundant taxa per sample"))
     
     metannotate_data <- dplyr::group_by(metannotate_data, Dataset, HMM.Family) %>%
       dplyr::top_n(n = top_x, wt = percent_abundance)
     
   } else if (top_x < 1 && top_x > 0) {
     if (percent_mode == "within_sample") {
-      flog.info(paste0("Subsetting all taxa of at least ", top_x * 100, "% normalized relative abundance"))
+      futile.logger::flog.info(paste0("Subsetting all taxa of at least ", top_x * 100, "% normalized relative abundance"))
       
       metannotate_data <- dplyr::filter(metannotate_data, percent_abundance >= (top_x * 100))
       
     } else if (percent_mode == "within_HMM") {
-      flog.info(paste0("Subsetting all taxa of at least ", top_x * 100, "% relative abundance per HMM"))
+      futile.logger::flog.info(paste0("Subsetting all taxa of at least ", top_x * 100, "% relative abundance per HMM"))
       
       # Re-calculate the total hits for each HMM
       # TODO - generalize the summary function so I don't have to rename so many columns here

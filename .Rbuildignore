@@ -1,3 +1,4 @@
 ^data-raw$
 ^vignettes$
+^tests$
 ^test-data$

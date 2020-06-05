@@ -3,8 +3,6 @@
 \name{explore}
 \alias{explore}
 \alias{explore_metannotate_data}
-\alias{metannotate}
-\alias{metannoviz}
 \title{Explore MetAnnotate data}
 \usage{
 explore(

@@ -74,7 +74,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
   }
   
   if (plot_type == "bar") {
-    flog.debug("Generating barplot")
+    futile.logger::flog.debug("Generating barplot")
 
     metannotate_plot <- metannotate_plot +
       geom_bar(data = hit_totals, aes(x = Dataset, weight = percent_abundance), fill = "#808080") +
@@ -88,7 +88,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
       ylab(paste0("Gene hits relative to ", normalizing_HMM, " (%; normalized)"))
     
   } else if (plot_type == "bubble") {
-    flog.debug("Generating bubble plot")
+    futile.logger::flog.debug("Generating bubble plot")
 
     # TODO - allow user to toggle which taxon rank to use
     legend_taxon_colname <- "Closest.Homolog.Phylum"
@@ -184,7 +184,7 @@ visualize <- function(metannotate_data_normalized_list, colouring_template_filen
     tail(n = 1)
   plotting_taxon <- TAXONOMY_NAMING$taxonomy[match(plotting_taxon_colname,
                                                    TAXONOMY_NAMING$metannotate_colnames)]
-  flog.debug(paste0("Plotting input dataframe has been collapsed to the '", plotting_taxon, "' level."))
+  futile.logger::flog.debug(paste0("Plotting input dataframe has been collapsed to the '", plotting_taxon, "' level."))
   
   # Filter to the desired top_x cutoff
   # TODO - longer-term move abundance filtration out of this script for clarity
@@ -231,11 +231,11 @@ visualize <- function(metannotate_data_normalized_list, colouring_template_filen
 
   if (dump_raw_data == TRUE) {
     # TODO - this is bad design; function should not output something totally different given a flag...
-    flog.info("Dumping raw data in lieu of a ggplot")
+    futile.logger::flog.info("Dumping raw data in lieu of a ggplot")
     metannotate_plot <- metannotate_data
 
   } else {
-    flog.info("Creating the ggplot")
+    futile.logger::flog.info("Creating the ggplot")
     metannotate_plot <- generate_ggplot(metannotate_data = metannotate_data,
                                         hit_totals = hit_totals,
                                         plotting_colour_data = plotting_colour_data,

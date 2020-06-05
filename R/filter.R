@@ -19,12 +19,12 @@ summarize_total_reads <- function(metannotate_data, gene = "rpoB", collapsed = F
   
   if (collapsed == FALSE) {
     
-    flog.debug("Assuming table has not been collapsed by taxonomy. Summing rows.")
+    futile.logger::flog.debug("Assuming table has not been collapsed by taxonomy. Summing rows.")
     metannotate_summ <- dplyr::summarise(metannotate_summ, hits = n())
     
   } else if (collapsed == TRUE) {
     
-    flog.debug("Assuming table has been collapsed by taxonomy. Summing 'hits' column.")
+    futile.logger::flog.debug("Assuming table has been collapsed by taxonomy. Summing 'hits' column.")
     metannotate_summ <- dplyr::summarise(metannotate_summ, hits = sum(hits))
     
   }
@@ -52,7 +52,7 @@ summarize_total_reads_all_genes <- function(metannotate_data, format = "wide", c
 
   # If genes have been assigned a factor, then re-assign
   if (is.factor(metannotate_data$HMM.Family) == TRUE) {
-    flog.debug("Re-assigning factors to output table")
+    futile.logger::flog.debug("Re-assigning factors to output table")
     gene_summaries$gene <- factor(gene_summaries$gene, levels = levels(metannotate_data$HMM.Family),
                                      ordered = TRUE)
   }
@@ -60,13 +60,13 @@ summarize_total_reads_all_genes <- function(metannotate_data, format = "wide", c
   # Make wide format if desired
   if (tolower(format) == "wide") {
     
-    flog.debug("Returning wide-format data frame")
+    futile.logger::flog.debug("Returning wide-format data frame")
     gene_summaries <- gene_summaries %>%
       tidyr::pivot_wider(names_from = gene, values_from = hits)
     
   } else if (tolower(format) == "long") {
 
-    flog.debug("Returning long-format data frame")
+    futile.logger::flog.debug("Returning long-format data frame")
 
   } else {
 

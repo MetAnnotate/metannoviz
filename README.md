@@ -1,5 +1,5 @@
 # metannoviz
-[![GitHub release](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
+[![GitHub release](https://img.shields.io/badge/Version-1.0.1-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
 
 A simple R package to process output from [MetAnnotate](http://github.com/metannotate/metannotate)
 
@@ -18,14 +18,14 @@ library(metannoviz)
 Here are some more nuanced `devtools` commands to get a specific code version:
 ```R
 # Rather than getting the latest release, get a release with a specific version number, e.g., 1.0.0
-devtools::install_github("metannotate/metannoviz@1.0.0")
+devtools::install_github("metannotate/metannoviz@1.0.1")
 
 # For the latest (but not necessarily stable!) features, install from the unreleased master branch of the repo
 devtools::install_github("metannotate/metannoviz@master")
 ```
 
 ### Dependencies
-You'll need R >= 3.2 installed on your machine, along with the `devtools` package (as seen above).  
+You'll need R >= 3.5 installed on your machine, along with the `devtools` package (as seen above).  
 
 The following additional R packages will be installed during `devtools::install_github()` above:
 ```
@@ -41,6 +41,14 @@ scales
 ggplot2 (>= 3.0)
 digest
 ```
+
+### Testing
+For developers: if you want to test the code, then clone the Github repo, open a R console, change the 
+working directory to the repo location, and then run:
+```R
+devtools::test()
+```
+You'll see a summary of what tests are passing/failing.
 
 ## Usage
 ### Before starting
