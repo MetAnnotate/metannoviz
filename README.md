@@ -1,5 +1,5 @@
 # metannoviz
-[![GitHub release](https://img.shields.io/badge/Version-1.0.1-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
+[![GitHub release](https://img.shields.io/badge/Version-1.0.2-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
 
 A simple R package to process output from [MetAnnotate](http://github.com/metannotate/metannotate)
 
@@ -13,12 +13,16 @@ You can be up and running with the latest full release by running three commands
 library(devtools)
 devtools::install_github("metannotate/metannoviz@*release")
 library(metannoviz)
+
+# Note: on some systems, you need to restart R to view the documentation for the new package. E.g., in Rstudio, run
+.rs.restartR()
 ```
+The restart R issue (I think) is the same as described [here](https://github.com/r-lib/devtools/issues/419) and [here](https://stackoverflow.com/a/34008352). 
 
 Here are some more nuanced `devtools` commands to get a specific code version:
 ```R
-# Rather than getting the latest release, get a release with a specific version number, e.g., 1.0.0
-devtools::install_github("metannotate/metannoviz@1.0.1")
+# Rather than getting the latest release, get a release with a specific version number, e.g., v1.0.2
+devtools::install_github("metannotate/metannoviz@v1.0.2")
 
 # For the latest (but not necessarily stable!) features, install from the unreleased master branch of the repo
 devtools::install_github("metannotate/metannoviz@master")
