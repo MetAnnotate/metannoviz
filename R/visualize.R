@@ -19,7 +19,7 @@
 #' @return A ggplot of MetAnnotate data
 #' @export
 generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
-                            plotting_taxon, normalizing_HMM, plot_type = "bar",
+                            plotting_taxon, normalizing_HMM, plot_type = "bar", wrap = "vertical"
                             space = "free", bubble_size_range = c(1,20), alpha = 0.8,
                             bubble_labels = TRUE) {
 
@@ -63,12 +63,20 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
           legend.box.just = "left") +
     xlab("Sample")
   
+  if (wrap == "vertical"){
+    wrap_input <- "HMM.Family ~ ."
+  } else if (wrap == "horizontal"){
+    wrap_input <- ". ~ HMM.Family"
+  } else {
+    stop(paste0("'wrap' must be either 'vertical' or 'horizontal'. You provided '", wrap, "'."))
+  }
+  
   if (space == "fixed") {
     metannotate_plot <- metannotate_plot +
-      facet_grid(HMM.Family ~ ., scales = "free", space = "fixed")
+      facet_grid(paste(wrap_input), scales = "free", space = "fixed")
   } else if (space == "free") {
     metannotate_plot <- metannotate_plot +
-      facet_grid(HMM.Family ~ ., scales = "free", space = "free")
+      facet_grid(paste(wrap_input), scales = "free", space = "free")
   } else {
     stop(paste0("'space' must be either 'free' or 'fixed'. You provided '", space, "'."))
   }
