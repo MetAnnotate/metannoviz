@@ -257,7 +257,7 @@ The following options are also available in `explore()` to customize the plot:
 Applies to both barplots and bubble plots:
 - `space`: whether or not the axes in different panels are `fixed` or `free` (see ggplot2 docs)
 - `wrap`: whether or not the facet wrap is `veritcal` or  `horizontal` (i.e. the organization of the panes)
-  - NOTE: HMM length normalization does not account for all the biases that can affect the number of hits between HMMs. When choosing `wrap = horizontal`, be careful not to directly compare abundances between HMMs.
+  - Warning: HMM length normalization does not account for all the biases that can affect the number of hits between HMMs. When choosing `wrap = horizontal`, be careful not to directly compare abundances between HMMs.
 
 Apply to bubble plots only:
 - `bubble_size_range`: numeric vector of length two (e.g., `c(1,20`) with the smallest and largest bubble sizes you want
