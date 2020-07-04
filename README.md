@@ -17,7 +17,7 @@ library(metannoviz)
 # Note: on some systems, you need to restart R to view the documentation for the new package. E.g., in Rstudio, run
 .rs.restartR()
 ```
-The restart R issue (I think) is the same as described [here](https://github.com/r-lib/devtools/issues/419) and [here](https://stackoverflow.com/a/34008352). 
+The restart R issue (I think) is the same as described [here](https://github.com/r-lib/devtools/issues/419) and [here](https://stackoverflow.com/a/34008352).
 
 Here are some more nuanced `devtools` commands to get a specific code version:
 ```R
@@ -47,7 +47,7 @@ digest
 ```
 
 ### Testing
-For developers: if you want to test the code, then clone the Github repo, open a R console, change the 
+For developers: if you want to test the code, then clone the Github repo, open a R console, change the
 working directory to the repo location, and then run:
 ```R
 devtools::test()
@@ -56,17 +56,17 @@ You'll see a summary of what tests are passing/failing.
 
 ## Usage
 ### Before starting
-You'll need to run the [MetAnnotate](http://github.com/metannotate/metannotate) pipeline on your unassembled metagenome 
-dataset. Predict open reading frames (ORFs) from the unassembled reads (e.g., using 
-[FragGeneScan](https://github.com/COL-IU/Graph2Pro/tree/master/FragGeneScan)) and then run MetAnnotate using your 
+You'll need to run the [MetAnnotate](http://github.com/metannotate/metannotate) pipeline on your unassembled metagenome
+dataset. Predict open reading frames (ORFs) from the unassembled reads (e.g., using
+[FragGeneScan](https://github.com/COL-IU/Graph2Pro/tree/master/FragGeneScan)) and then run MetAnnotate using your
 custom HMMs of interest (including at least one single-copy taxonomic marker gene, like __rpoB__).
 
 Once done, you'll need the following info from your MetAnnotate run:
-- all_annotations_[etc].tsv -- the MetAnnotate annotations file. Any of the annotation (TSV) files output by 
-MetAnnotate will work, but the "all_annnotations..." file will contain a complete summary of your data. It can 
+- all_annotations_[etc].tsv -- the MetAnnotate annotations file. Any of the annotation (TSV) files output by
+MetAnnotate will work, but the "all_annnotations..." file will contain a complete summary of your data. It can
 be gzipped if you'd like, for space savings.
-- lengths of all HMMs used -- you can get this from the header of each HMM if you look at the first few lines in a 
-text editor. Alternatively, `metannotate-wrapper` in the MetAnnotate repo will also summarize this info for you in 
+- lengths of all HMMs used -- you can get this from the header of each HMM if you look at the first few lines in a
+text editor. Alternatively, `metannotate-wrapper` in the MetAnnotate repo will also summarize this info for you in
 its log file during the MetAnnotate run.
 
 From here, you can then analyze your data a number of different ways. The recommended workflow is below:
@@ -140,26 +140,26 @@ Example filled out table (note how I also moved around and deleted some rows):
 ```
 raw_name	HMM.Family	HMM_length	notes
 rpoB_13	rpoB	2842	This is the taxonomic marker gene I plan to use
-cyc2_0	cyc2_3GSB	411	
-dsrA_4	dsrA	369	
-soxB_14	soxB	570	
-BChl_A_8	fmoA	369	
-TIGR01115_9	pufM	570	
-TIGR01281_10	bchL	369	
-TIGR02019_11	bchJ	570	
+cyc2_0	cyc2_3GSB	411
+dsrA_4	dsrA	369
+soxB_14	soxB	570
+BChl_A_8	fmoA	369
+TIGR01115_9	pufM	570
+TIGR01281_10	bchL	369
+TIGR02019_11	bchJ	570
 ```
 
 `dataset_info_template.tsv` will look something like:
 ```
 raw_name	Dataset
-L227_2014_6m_QC_R1_frag_2	
-L227_2013_6m_QC_R1_frag_0	
-L442_2011_16_5m_QC_R1_frag_6	
-L227_2013_8m_QC_R1_frag_1	
-L227_2014_8m_QC_R1_frag_3	
-L442_2014_15m_QC_R1_frag_7	
-L227_S_6D_QC_R1_frag_4	
-L304_S_6D_QC_R1_frag_5	
+L227_2014_6m_QC_R1_frag_2
+L227_2013_6m_QC_R1_frag_0
+L442_2011_16_5m_QC_R1_frag_6
+L227_2013_8m_QC_R1_frag_1
+L227_2014_8m_QC_R1_frag_3
+L442_2014_15m_QC_R1_frag_7
+L227_S_6D_QC_R1_frag_4
+L304_S_6D_QC_R1_frag_5
 ```
 
 You need to fill in:
@@ -196,66 +196,68 @@ Example usage:
 ```R
 metannotate_plot <- explore(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
                             normalizing_HMM = "rpoB", top_x = 0.02, percent_mode = "within_sample",
-                            colouring_template_filename = NA, plot_type = "bar")
+                            colouring_template_filename = NA, plot_type = "bar", wrap = "vertical")
 print(metannotate_plot)
 ```
 
 What this does:
-1. _Filters_ your data to an e-value threshold of your choice (defined in `evalue`). Will then print helpful summary 
-tables to the screen to show the % change in the # of hits before and after e-value filtration. Future versions of this 
-script may also help to provide guidance on the selection of an appropriate e-value cutoff, but for now, the user must 
+1. _Filters_ your data to an e-value threshold of your choice (defined in `evalue`). Will then print helpful summary
+tables to the screen to show the % change in the # of hits before and after e-value filtration. Future versions of this
+script may also help to provide guidance on the selection of an appropriate e-value cutoff, but for now, the user must
 decide on this themselves.
-2. _Collapses_ the data to a given taxonomic rank (MUST be one of: domain, phylum, class, order, family, genus, 
-species; case insensitive), as defined in `taxon`. This sums up hit counts to each taxon at the given rank, creating 
+2. _Collapses_ the data to a given taxonomic rank (MUST be one of: domain, phylum, class, order, family, genus,
+species; case insensitive), as defined in `taxon`. This sums up hit counts to each taxon at the given rank, creating
 something kind of like an 'OTU table' in 16S amplicon analysis.
-3. _Normalizes_ the data by HMM length. Longer HMMs tend to have more hits than shorter HMMs from raw read data (with 
-generally linear correlation between HMM length and hit bias), so this script divides the number of HMM hits by the 
-length of the HMM. This allows hit counts from different HMMs to be cross-compared. You already provided the HMM 
+3. _Normalizes_ the data by HMM length. Longer HMMs tend to have more hits than shorter HMMs from raw read data (with
+generally linear correlation between HMM length and hit bias), so this script divides the number of HMM hits by the
+length of the HMM. This allows hit counts from different HMMs to be cross-compared. You already provided the HMM
 lengths in the `hmm_info_template.tsv` file described above.
-4. _Normalizes_ the data according to the total sequencing depth of each sample. This allows for HMM hit counts to be 
-meaningfully compared between metagenome datasets. Total sequencing depth is defined by the total (lenth-normalized) 
-hits to a single-copy taxonomic marker gene (defined in `normalizing_HMM`). As such, your MetAnnotate table MUST 
-contain a HMM of a single-copy taxonomic marker gene like __rpoB__ or __dnaK__. `normalizing_HMM` should be the 
-"HMM.Family" name that you gave to your normalizing HMM in the `hmm_info_template.tsv` file described above. 
-As a consequence of this double-normalization, the output data for each functional gene is expressed as the relative 
-abundance of the gene compared to the single copy taxonomic marker gene. For example, double normalization might show 
-that total __dsrA__ hits represent 20% of total __rpoB__ hits, leading you to conclude that __dsrA__ must be a fairly 
-commonly held gene in the whole microbial community in your sample. You might see that the __dsrA__ hits classified to 
-the __Chlorobiaceae__ family represent 10% of total __rpoB__ hits (or 50% of total __dsrA__ hits), leading you to 
-conclude that __Chlorobiaceae__ are prominant sulfur-cycling microorganisms in the system. (See more in 'How to 
-interpret the plot' below.) 
-However, an important caveat: HMM length normalization attempts to allow HMM hit values to be directly cross-compared, 
-but it CANNOT account for the inherent bias of different HMMs. A stringent HMM will still get fewer hits than a relaxed 
-HMM, based on the probability frequencies defined in the HMM profile. As such, you should not 'hang your hat' on 
-between-HMM comparisons that this script outputs. Within HMM comparisons are likely reliable, but between-HMM 
-comparisons may be biased. So be careful before saying that one gene is more/less prevalent than another if the #s are 
+4. _Normalizes_ the data according to the total sequencing depth of each sample. This allows for HMM hit counts to be
+meaningfully compared between metagenome datasets. Total sequencing depth is defined by the total (lenth-normalized)
+hits to a single-copy taxonomic marker gene (defined in `normalizing_HMM`). As such, your MetAnnotate table MUST
+contain a HMM of a single-copy taxonomic marker gene like __rpoB__ or __dnaK__. `normalizing_HMM` should be the
+"HMM.Family" name that you gave to your normalizing HMM in the `hmm_info_template.tsv` file described above.
+As a consequence of this double-normalization, the output data for each functional gene is expressed as the relative
+abundance of the gene compared to the single copy taxonomic marker gene. For example, double normalization might show
+that total __dsrA__ hits represent 20% of total __rpoB__ hits, leading you to conclude that __dsrA__ must be a fairly
+commonly held gene in the whole microbial community in your sample. You might see that the __dsrA__ hits classified to
+the __Chlorobiaceae__ family represent 10% of total __rpoB__ hits (or 50% of total __dsrA__ hits), leading you to
+conclude that __Chlorobiaceae__ are prominant sulfur-cycling microorganisms in the system. (See more in 'How to
+interpret the plot' below.)
+However, an important caveat: HMM length normalization attempts to allow HMM hit values to be directly cross-compared,
+but it CANNOT account for the inherent bias of different HMMs. A stringent HMM will still get fewer hits than a relaxed
+HMM, based on the probability frequencies defined in the HMM profile. As such, you should not 'hang your hat' on
+between-HMM comparisons that this script outputs. Within HMM comparisons are likely reliable, but between-HMM
+comparisons may be biased. So be careful before saying that one gene is more/less prevalent than another if the #s are
 close.
 Once normalization is finished, the function prints some normalization stats to the screen for the user's interest.
 5. _Filters_ out low relative abundance taxa, for plotting purposes.
-- `top_x`: if >=1 (e.g., 10), then the script keeps the top __ most abundant taxa within each sample for plotting. 
-If <1 (e.g., 0.02), then the script keeps all taxa of __ (e.g., 2%) proportional abundance or higher within each 
+- `top_x`: if >=1 (e.g., 10), then the script keeps the top __ most abundant taxa within each sample for plotting.
+If <1 (e.g., 0.02), then the script keeps all taxa of __ (e.g., 2%) proportional abundance or higher within each
 sample for plotting.
-- `percent_mode` (advanced!): If `top_x` <1 (i.e., in proportional abundance mode), then there are two different ways 
-to filter by proportional abundance for functional genes. Specify the preferred method here. If `within_sample` is 
-selected, then the script will keep all taxa with __ proportional abundance or higher _based on the proportional 
-abundance of that taxon in the normalizing_HMM data_. If `within_HMM` is selected, then the script will keep all taxa 
-with __ proportional abundance or higher _based on the proportional abundance of the taxa within each HMM_. The main 
-case where `within_HMM` is helpful is when one functional gene HMM accounts for a very small proportion of the total 
-hits in the dataset, but you still want to see what taxa are there. Play around with these settings yourself to test 
+- `percent_mode` (advanced!): If `top_x` <1 (i.e., in proportional abundance mode), then there are two different ways
+to filter by proportional abundance for functional genes. Specify the preferred method here. If `within_sample` is
+selected, then the script will keep all taxa with __ proportional abundance or higher _based on the proportional
+abundance of that taxon in the normalizing_HMM data_. If `within_HMM` is selected, then the script will keep all taxa
+with __ proportional abundance or higher _based on the proportional abundance of the taxa within each HMM_. The main
+case where `within_HMM` is helpful is when one functional gene HMM accounts for a very small proportion of the total
+hits in the dataset, but you still want to see what taxa are there. Play around with these settings yourself to test
 them out.
-6. _Plots_ the data. Can do this either as a "bar" plot or a "bubble" plot, as defined in `plot_type`. If you want to 
+6. _Plots_ the data. Can do this either as a "bar" plot or a "bubble" plot, as defined in `plot_type`. If you want to
 make the plot look more beautiful, you can use the `colouring_template_filename` feature described below.
 
-Play around with the script parameters until you are satisfied. Then, when you want to make a finalized plot, improve 
+Play around with the script parameters until you are satisfied. Then, when you want to make a finalized plot, improve
 plot colours and save to a PDF as described below.
 
 #### Barplots vs. bubble plots and beyond
-Note that you have access to additional options for fine control over your plot type and appearance. 
-Importantly, `plot_type` lets you choose between a `bar` or a `bubble` plot of your data. 
+Note that you have access to additional options for fine control over your plot type and appearance.
+Importantly, `plot_type` lets you choose between a `bar` or a `bubble` plot of your data.
 The following options are also available in `explore()` to customize the plot:
 
 Applies to both barplots and bubble plots:
 - `space`: whether or not the axes in different panels are `fixed` or `free` (see ggplot2 docs)
+- `wrap`: whether or not the facet wrap is `veritcal` or  `horizontal` (i.e. the organization of the panes)
+  - Warning: HMM length normalization does not account for all the biases that can affect the number of hits between HMMs. When choosing `wrap = horizontal`, be careful not to directly compare abundances between HMMs.
 
 Apply to bubble plots only:
 - `bubble_size_range`: numeric vector of length two (e.g., `c(1,20`) with the smallest and largest bubble sizes you want
@@ -269,10 +271,10 @@ Plus, two additional advanced settings exist:
 Beyond these, you can also tweak colours as specified below.
 
 ### 4. Beatify and export the plot
-Once you have settings for `explore()` that you are satisfied with, you can change the plot colours to 
+Once you have settings for `explore()` that you are satisfied with, you can change the plot colours to
 be more meaningful.
 
-Run your plot's code again, but specify a save location for the `colouring_template_filename` instead of `NA`. 
+Run your plot's code again, but specify a save location for the `colouring_template_filename` instead of `NA`.
 This file should NOT already exist. E.g.,
 ```R
 metannotate_plot <- explore(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
@@ -280,7 +282,7 @@ metannotate_plot <- explore(metannotate_data_mapped, evalue = 1e-10, taxon = "Fa
                             plot_type = "bar", colouring_template_filename = "colouring_template.tsv")
 ```
 
-This will write `colouring_template.tsv` to your working directory. The file looks something like this 
+This will write `colouring_template.tsv` to your working directory. The file looks something like this
 (if data was collapsed using `taxon = "Order"`):
 ```
 order	colour
@@ -304,8 +306,8 @@ Pedosphaerales	#AB88FF
 Syntrophales	#D177FF
 ```
 
-Auto-generated HTML colour codes are provided, as well as an auto-generated sort order. You can now change these to 
-HTML colour codes of your choice, and you can modify the order of the rows to plot the taxa in the order you prefer. 
+Auto-generated HTML colour codes are provided, as well as an auto-generated sort order. You can now change these to
+HTML colour codes of your choice, and you can modify the order of the rows to plot the taxa in the order you prefer.
 For example:
 ```
 order	colour
@@ -329,7 +331,7 @@ Pedosphaerales	#AB88FF
 Syntrophales	#D177FF
 ```
 
-Once done, you can specify the final filename as `colouring_template_filename` and then run again. For example, if you 
+Once done, you can specify the final filename as `colouring_template_filename` and then run again. For example, if you
 renamed your final file `colouring_guide.tsv`:
 ```R
 metannotate_plot <- explore(metannotate_data_mapped, evalue = 1e-10, taxon = "Family",
@@ -343,7 +345,7 @@ Once you are satisfied with the plot, you can save it using:
 output_filename <- "path_to_output_file.pdf"
 plot_width <- 200
 plot_height <- 300
-ggsave(file = output_filename, width = plot_width, 
+ggsave(file = output_filename, width = plot_width,
          height = plot_height, units = "mm")
 ```
 Play around with the width and height to get it to your liking.
@@ -352,21 +354,21 @@ Done! You can do further fine-scale edits in a program like Inkscape.
 
 ## How to interpret the plot (and some nitty gritty details)
 Two normalization steps are performed during the production of the plot:
-1. Normalize by HMM length: longer HMMs get more hits than shorter ones (e.g., due to it overlapping a larger 
-proportion of a genome and so hitting more short reads). Thus, this script divides hit totals by HMM length (assuming a 
-linear relationship between length and hit numbers) to attempt to account for this bias. This allows for comparison 
+1. Normalize by HMM length: longer HMMs get more hits than shorter ones (e.g., due to it overlapping a larger
+proportion of a genome and so hitting more short reads). Thus, this script divides hit totals by HMM length (assuming a
+linear relationship between length and hit numbers) to attempt to account for this bias. This allows for comparison
 between HMMs within a single metagenome.
-2. Normalize by total marker gene (e.g., _rpoB_) hits within each sample: each metagenome will have a slightly 
-different number of relevant reads. To account for this difference, one can express all HMM hits within a single 
-metagenome as relative abundances to a single-copy taxonomic marker gene that has predictable behaviour between 
-different environments. This script sums the total number of hits for the given taxonomic marker gene within each 
-sample (AFTER length normalized) and then divides other length-normalized HMM hits by this number in order to express 
+2. Normalize by total marker gene (e.g., _rpoB_) hits within each sample: each metagenome will have a slightly
+different number of relevant reads. To account for this difference, one can express all HMM hits within a single
+metagenome as relative abundances to a single-copy taxonomic marker gene that has predictable behaviour between
+different environments. This script sums the total number of hits for the given taxonomic marker gene within each
+sample (AFTER length normalized) and then divides other length-normalized HMM hits by this number in order to express
 them as proportional abundances relative to the marker gene.
 
 This lays the framework for understanding the bar charts. For each plotted HMM:
-* Total hits relative to the taxonomic marker are shown as a grey bar ("#808080"). This gives an indication of the 
-**total abundance of that gene within the microbial community relative to the marker**. For example, if the grey bar is 
-at 30% for the _nifH_ gene, then potentially, ~30% of microorganisms within the community possess that gene (or 15% 
+* Total hits relative to the taxonomic marker are shown as a grey bar ("#808080"). This gives an indication of the
+**total abundance of that gene within the microbial community relative to the marker**. For example, if the grey bar is
+at 30% for the _nifH_ gene, then potentially, ~30% of microorganisms within the community possess that gene (or 15%
 possess two copies of that gene, and so on).
 * The top specified taxa are shown as coloured bars (as specified by the user)
 
@@ -401,13 +403,13 @@ metannotate_data_normalized_list <- normalize(metannotate_data_collapsed, normal
 # Plot the data
 metannotate_plot <- visualize(metannotate_data_normalized_list , colouring_template_filename = NA,
                               top_x = NA, percent_mode = "within_sample", normalizing_HMM = "auto",
-                              plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, plot_type = "bar",
+                              plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, plot_type = "bar", wrap = "vertical"
                               space = "free", bubble_size_range = c(1,20), alpha = 0.8, bubble_labels = TRUE)
 # Further beautify the plot with a colouring_template_filename if interested.
 
 # You can find out more on each of these functions using the ? notation (e.g., ?metannoviz::filter_by_evalue() )
 ```
-The main purpose of splitting up the functions as shown here is if you want to do custom analyses with your data 
+The main purpose of splitting up the functions as shown here is if you want to do custom analyses with your data
 outside of the regular workflow. More documentation coming here as the script is further developed.
 
 ## Future development plans
