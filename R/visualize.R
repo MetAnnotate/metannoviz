@@ -12,7 +12,6 @@
 #' @param plotting_taxon The taxonomy rank to summarize bars/bubbles to; MUST MATCH the collapse taxon of the MetAnnotate table
 #' @param normalizing_HMM the name of the normalizing HMM (e.g., 'rpoB')
 #' @param plot_type Either 'bar' or 'bubble'
-#' @param plot_type Either 'vertical' or 'horizontal'
 #' @param space ggplot setting; 'fixed' or 'free'
 #' @param bubble_size_range numeric vector of length two with the small and large bubble sizes
 #' @param alpha ggplot value; transparency (for bubble plots)
@@ -44,7 +43,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
   if (plot_type == "bubble") {
     metannotate_data$label <- round(metannotate_data$percent_abundance, digits = 1)
   }
-
+  
   # Make the base plot
   metannotate_plot <- ggplot(metannotate_data) +
     theme_bw() +
@@ -63,7 +62,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
           legend.spacing = unit(1, "mm"),
           legend.box.just = "left") +
     xlab("Sample")
-
+  
   if (wrap == "vertical"){
     wrap_input <- "HMM.Family ~ ."
   } else if (wrap == "horizontal"){
@@ -71,7 +70,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
   } else {
     stop(paste0("'wrap' must be either 'vertical' or 'horizontal'. You provided '", wrap, "'."))
   }
-
+  
   if (space == "fixed") {
     metannotate_plot <- metannotate_plot +
       facet_grid(paste(wrap_input), scales = "free", space = "fixed")
@@ -81,7 +80,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
   } else {
     stop(paste0("'space' must be either 'free' or 'fixed'. You provided '", space, "'."))
   }
-
+  
   if (plot_type == "bar") {
     futile.logger::flog.debug("Generating barplot")
 
@@ -95,7 +94,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
             panel.spacing.y = unit(3, "mm")) +
       guides(fill = guide_legend(ncol = 1, title = element_blank())) +
       ylab(paste0("Gene hits relative to ", normalizing_HMM, " (%; normalized)"))
-
+    
   } else if (plot_type == "bubble") {
     futile.logger::flog.debug("Generating bubble plot")
 
@@ -116,7 +115,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
       theme(axis.text.y = element_text(size = 5, face = "italic")) +
       guides(fill = guide_legend(title = legend_taxon)) +
       ylab(paste0(plotting_taxon_label, " of closest homologue"))
-
+    
     if (bubble_labels == TRUE) {
       metannotate_plot <- metannotate_plot +
         geom_text(aes_string(x = "Dataset", y = plotting_taxon_colname, label = "label"),
@@ -127,14 +126,14 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
         guides(size = guide_legend(title = paste0("Gene hits relative to \n", normalizing_HMM, " (%; normalized)"),
                                    override.aes = list(fill = "#4d4d4d")))
     }
-
+    
   } else {
 
     stop(paste0("'plot_type' must be either 'bar' or 'bubble'; ",
                 "you provided '", plot_type, "'."))
 
   }
-
+  
   return(metannotate_plot)
 }
 
@@ -166,8 +165,8 @@ visualize <- function(metannotate_data_normalized_list, colouring_template_filen
                       plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, ...) {
   # # Example column names of the plotting table, if collapsed to family
   # [1] "Dataset"                      "HMM.Family"                   "Closest.Homolog.Superkingdom"
-  # [4] "Closest.Homolog.Phylum"       "Closest.Homolog.Class"        "Closest.Homolog.Order"
-  # [7] "Closest.Homolog.Family"       "percent_abundance"
+  # [4] "Closest.Homolog.Phylum"       "Closest.Homolog.Class"        "Closest.Homolog.Order"       
+  # [7] "Closest.Homolog.Family"       "percent_abundance" 
 
   # Check that the first input is actually a list
   if (class(metannotate_data_normalized_list)[1] != "list") {
@@ -194,7 +193,7 @@ visualize <- function(metannotate_data_normalized_list, colouring_template_filen
   plotting_taxon <- TAXONOMY_NAMING$taxonomy[match(plotting_taxon_colname,
                                                    TAXONOMY_NAMING$metannotate_colnames)]
   futile.logger::flog.debug(paste0("Plotting input dataframe has been collapsed to the '", plotting_taxon, "' level."))
-
+  
   # Filter to the desired top_x cutoff
   # TODO - longer-term move abundance filtration out of this script for clarity
   metannotate_data <- filter_by_abundance(metannotate_data, top_x, percent_mode = percent_mode)

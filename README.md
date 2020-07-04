@@ -256,6 +256,7 @@ The following options are also available in `explore()` to customize the plot:
 
 Applies to both barplots and bubble plots:
 - `space`: whether or not the axes in different panels are `fixed` or `free` (see ggplot2 docs)
+- `wrap`: whether or not the facet wrap is `veritcal` or  `horizontal` (i.e. the organization of the panes)
 
 Apply to bubble plots only:
 - `bubble_size_range`: numeric vector of length two (e.g., `c(1,20`) with the smallest and largest bubble sizes you want
@@ -401,7 +402,7 @@ metannotate_data_normalized_list <- normalize(metannotate_data_collapsed, normal
 # Plot the data
 metannotate_plot <- visualize(metannotate_data_normalized_list , colouring_template_filename = NA,
                               top_x = NA, percent_mode = "within_sample", normalizing_HMM = "auto",
-                              plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, plot_type = "bar",
+                              plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, plot_type = "bar", wrap = "vertical"
                               space = "free", bubble_size_range = c(1,20), alpha = 0.8, bubble_labels = TRUE)
 # Further beautify the plot with a colouring_template_filename if interested.
 
