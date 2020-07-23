@@ -18,5 +18,5 @@ List of two:
 }
 }
 \description{
-: Collapses replicates in a normalized metannotate table into means with standard deviations
+: Combines replicates in a normalized metannotate table into means with standard deviations
 }

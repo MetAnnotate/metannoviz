@@ -5,7 +5,7 @@
 #' Combine replicates
 #'
 #' @aliases dereplicate
-#' @description: Collapses replicates in a normalized metannotate table into means with standard deviations
+#' @description: Combines replicates in a normalized metannotate table into means with standard deviations
 #' @param metannotate_data_normalized_list List output of \code{\link{normalize}}
 #' @return List of two:
 #' - Tibble of metannotate data, with 'percent_abundance' and 'percent_abundance_sd'

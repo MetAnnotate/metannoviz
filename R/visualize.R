@@ -133,7 +133,7 @@ generate_ggplot <- function(metannotate_data, hit_totals, plotting_colour_data,
 #'
 #' @aliases plot metannotate_plotter
 #' @description Wrapper to generate a ggplot of MetAnnotate data with subset, colours, labels, and so on
-#' @param metannotate_data_normalized_list List output of \code{\link{normalize}}
+#' @param metannotate_data_normalized_list List output of \code{\link{collapse_replicates}} - replicates must be collapsed
 #' @param colouring_template_filename Filename of the colouring template you want to load
 #' If the file does not exist, then this function will write a template to that file
 #' If 'NA' is entered, then the function will auto-generate colours and continue on
@@ -169,7 +169,6 @@ visualize <- function(metannotate_data_normalized_list, colouring_template_filen
   metannotate_data <- metannotate_data_normalized_list$metannotate_data
   hit_totals <- tidyr::pivot_longer(metannotate_data_normalized_list$total_normalized_hits, -Dataset,
                                     names_to = "HMM.Family", values_to = "percent_abundance")
-  # TODO - should Dataset be re-added?
   hit_totals$HMM.Family <- factor(hit_totals$HMM.Family, levels = unique(hit_totals$HMM.Family), ordered = TRUE)
 
   # Check metannotate data has been normalized
