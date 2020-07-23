@@ -12,6 +12,6 @@ test_plot_1_md5 <- test_plot_1$data %>%
   digest::digest("md5")
 
 test_that("explore works end-to-end", {
-  expect_identical(test_norm_1_md5, "e6fe48672b27efef5489d13c781cb6ae")
-  expect_identical(test_plot_1_md5, "e6fe48672b27efef5489d13c781cb6ae")
+  expect_identical(test_norm_1_md5, "ce37837e31bbad812e80aef31ad02eca")
+  expect_identical(test_plot_1_md5, "392eec495df3f0d484ba0922091745cd")
 })
