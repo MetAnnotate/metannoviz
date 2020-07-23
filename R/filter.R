@@ -36,6 +36,9 @@ summarize_total_reads <- function(metannotate_data, gene = "rpoB", collapsed = F
     metannotate_summ <- dplyr::summarise(metannotate_summ, hits = sum(hits))
     
   }
+
+  # Cleanup
+  metannotate_summ <- dplyr::ungroup(metannotate_summ)
   
   return(metannotate_summ)
 }
@@ -107,10 +110,11 @@ filter_by_evalue <- function(metannotate_data, evalue = 1e-10) {
   
   # Calculate % change
   pseudo_count <- 1e-10 # To prevent divide-by-zero errors
-  read_counts$percent_change <- ((dplyr::select(read_counts$evalue_filtered_data, -Dataset) - 
-                                    dplyr::select(read_counts$original_data, -Dataset)) / 
-                                   (dplyr::select(read_counts$original_data, -Dataset) + pseudo_count) * 100) %>%
+  read_counts$percent_change <- ((dplyr::select(read_counts$evalue_filtered_data, -Dataset, -replicate) -
+                                    dplyr::select(read_counts$original_data, -Dataset, -replicate)) /
+                                   (dplyr::select(read_counts$original_data, -Dataset, -replicate) + pseudo_count) * 100) %>%
     round(digits = 1) %>%
+    tibble::add_column(replicate = dplyr::pull(read_counts$original_data, replicate), .before = 1) %>%
     tibble::add_column(Dataset = dplyr::pull(read_counts$original_data, Dataset), .before = 1)
   
   output_list <- list(metannotate_data, read_counts)

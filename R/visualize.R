@@ -169,6 +169,7 @@ visualize <- function(metannotate_data_normalized_list, colouring_template_filen
   metannotate_data <- metannotate_data_normalized_list$metannotate_data
   hit_totals <- tidyr::pivot_longer(metannotate_data_normalized_list$total_normalized_hits, -Dataset,
                                     names_to = "HMM.Family", values_to = "percent_abundance")
+  # TODO - should Dataset be re-added?
   hit_totals$HMM.Family <- factor(hit_totals$HMM.Family, levels = unique(hit_totals$HMM.Family), ordered = TRUE)
 
   # Check metannotate data has been normalized
