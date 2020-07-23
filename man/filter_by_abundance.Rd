@@ -28,7 +28,7 @@ show some of the taxa that were hit. This would be a good time to use 'within_HM
 \value{
 List of two:
 \itemize{
-\item Tibble of metannotate data; 'hits' has now been changed to 'percent_abundance' and is double-normalized
+\item Tibble of metannotate data, with 'percent_abundance' and 'percent_abundance_sd'
 \item Tibble summarizing total normalized counts for genes
 }
 }

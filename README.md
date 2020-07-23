@@ -166,6 +166,8 @@ You need to fill in:
 - `Dataset`: The readable name you want to give the HMM (e.g., rpoB)
 - The _order_ of the datasets in this table dictates their order in the output plot
 - You can optionally _omit_ datasets you aren't interested in from the table. They will be dropped during data processing.
+- Have replicates? Give any replicates the same 'Dataset' name, and means with standard deviations will be auto-calculated.
+  - Note that metannoviz default plots don't handle error bars, but the raw data from the plots can be custom-plotted by you downstream.
 
 Example filled out table (note how I also moved around and deleted some rows, and even used some "special characters" in the Dataset names):
 
