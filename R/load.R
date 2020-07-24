@@ -35,7 +35,7 @@ read_metannotate_data <- function(metannotate_table_filename) {
 #' @param hmm_info_filename File to optionally write HMM information to
 #' @param dataset_info_filename File to optionally write dataset information to
 #' @return List of two tibbles: hmm_info and dataset_info; user can fill these out
-#' @keywords internal
+#' @export
 create_setup_templates <- function(metannotate_data, write_tables = FALSE,
                                    hmm_info_filename = "hmm_info_template.tsv",
                                    dataset_info_filename = "dataset_info_template.tsv") {
