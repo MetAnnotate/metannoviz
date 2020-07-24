@@ -18,7 +18,7 @@ visualize(
 )
 }
 \arguments{
-\item{metannotate_data_normalized_list}{List output of \code{\link{collapse_replicates}} - replicates must be collapsed}
+\item{metannotate_data_normalized_list}{List output of \code{\link{combine_replicates}} - replicates must be collapsed}
 
 \item{colouring_template_filename}{Filename of the colouring template you want to load
 If the file does not exist, then this function will write a template to that file

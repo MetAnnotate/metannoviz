@@ -421,4 +421,4 @@ outside of the regular workflow. More documentation coming here as the script is
 ## Future development plans
 - Enhanced advanced workflow (e.g., better subdivision of steps for doing multiple different types of analyses)
 - Example plots and data
-- Be able to handle replicates
+- Enhanced handling of replicates

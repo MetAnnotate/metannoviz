@@ -3,6 +3,7 @@
 export(choose_discrete_colour_scale)
 export(collapse_by_taxon)
 export(combine_replicates)
+export(create_setup_templates)
 export(explore)
 export(filter_by_abundance)
 export(filter_by_evalue)
