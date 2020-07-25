@@ -7,9 +7,10 @@
 #' @aliases dereplicate
 #' @description: Combines replicates in a normalized metannotate table into means with standard deviations
 #' @param metannotate_data_normalized_list List output of \code{\link{normalize}}
-#' @return List of two:
+#' @return List of three:
 #' - Tibble of metannotate data, with 'percent_abundance' and 'percent_abundance_sd'
 #' - Tibble summarizing total normalized counts for genes
+#' - Tibble summarizing total normalized counts for genes in long format, including standard deviations
 #' @export
 combine_replicates <- function(metannotate_data_normalized_list) {
   # # Example column names of the plotting table, if collapsed to family
@@ -51,16 +52,17 @@ combine_replicates <- function(metannotate_data_normalized_list) {
     dplyr::rename(percent_abundance = percent_abundance_mean)
 
   # Also get means of the total hits
-  hit_totals <- dplyr::group_by(hit_totals, Dataset, HMM.Family) %>%
+  hit_totals_long <- dplyr::group_by(hit_totals, Dataset, HMM.Family) %>%
     dplyr::summarise(percent_abundance_mean = mean(percent_abundance), percent_abundance_sd = sd(percent_abundance)) %>%
     dplyr::rename(percent_abundance = percent_abundance_mean) %>%
-    dplyr::select(-percent_abundance_sd) %>%
-    dplyr::ungroup() %>%
+    dplyr::ungroup()
+
+  hit_totals <- dplyr::select(hit_totals_long, -percent_abundance_sd) %>%
     tidyr::pivot_wider(names_from = HMM.Family, values_from = percent_abundance)
 
   # Output the list in the same format as for normalize()
-  output_list <- list(metannotate_data, hit_totals)
-  names(output_list) <- c("metannotate_data", "total_normalized_hits")
+  output_list <- list(metannotate_data, hit_totals, hit_totals_long)
+  names(output_list) <- c("metannotate_data", "total_normalized_hits", "total_normalized_hits_with_sd")
 
   return(output_list)
 }

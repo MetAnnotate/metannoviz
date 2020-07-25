@@ -11,10 +11,11 @@ combine_replicates(metannotate_data_normalized_list)
 \item{metannotate_data_normalized_list}{List output of \code{\link{normalize}}}
 }
 \value{
-List of two:
+List of three:
 \itemize{
 \item Tibble of metannotate data, with 'percent_abundance' and 'percent_abundance_sd'
 \item Tibble summarizing total normalized counts for genes
+\item Tibble summarizing total normalized counts for genes in long format, including standard deviations
 }
 }
 \description{
