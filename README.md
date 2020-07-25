@@ -402,12 +402,12 @@ metannotate_data_mapped <- map_naming_information(metannotate_data, hmm_naming_i
 
 # Pre-process the data (four functions here)
 metannotate_data_filtered <- filter_by_evalue(metannotate_data_mapped, evalue = 1e-10)
-metannotate_data_collapsed <- collapse_by_taxon(metannotate_data_filtered, taxon = "Family")
+metannotate_data_collapsed <- collapse_by_taxon(metannotate_data_filtered[[1]], taxon = "Family")
 metannotate_data_normalized_list <- normalize(metannotate_data_collapsed, normalizing_HMM = "rpoB")
 metannotate_data_normalized_list <- combine_replicates(metannotate_data_normalized_list)
 
 # Plot the data
-metannotate_plot <- visualize(metannotate_data_normalized_list , colouring_template_filename = NA,
+metannotate_plot <- visualize(metannotate_data_normalized_list, colouring_template_filename = NA,
                               top_x = NA, percent_mode = "within_sample", normalizing_HMM = "auto",
                               plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, plot_type = "bar",
                               space = "free", bubble_size_range = c(1,20), alpha = 0.8, bubble_labels = TRUE)
