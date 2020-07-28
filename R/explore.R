@@ -60,8 +60,11 @@ explore <- function(metannotate_data, evalue = 1e-10, taxon = "Family",
   # Normalize the data by HMM length
   futile.logger::flog.info("Normalizing data")
   metannotate_data_normalized_list <- normalize(metannotate_data_collapsed, normalizing_HMM = normalizing_HMM)
-  futile.logger::flog.info("Total normalized % abundance of analyzed genes compared to the marker gene:")
+
+  futile.logger::flog.info("Combining any replicates")
+  metannotate_data_normalized_list <- combine_replicates(metannotate_data_normalized_list)
   if (quietly == FALSE) {
+    futile.logger::flog.info("Total normalized % abundance of analyzed genes compared to the marker gene:")
     print(metannotate_data_normalized_list$total_normalized_hits)
   }
 

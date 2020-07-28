@@ -7,15 +7,23 @@
 #' @param metannotate_data Tibble of metannotate data
 #' @param gene Character vector (length 1) of a gene to summarize
 #' @param collapsed Logical (length 1) - has the table already been collapsed to a taxonomy rank?
+#' @param replicates Logical (length 1) - does the table include a 'replicates' column?
 #' If TRUE, then the function will sum the "hits" column instead of a simple count.
 #' @return Tibble of summarized hit counts
 #' @keywords internal
-summarize_total_reads <- function(metannotate_data, gene = "rpoB", collapsed = FALSE) {
+summarize_total_reads <- function(metannotate_data, gene = "rpoB", collapsed = FALSE,
+                                  replicates=TRUE) {
   # Filter down to gene of interest
   metannotate_summ <- dplyr::filter(metannotate_data, HMM.Family %in% gene)
   
   # Make summary table
-  metannotate_summ <- dplyr::group_by(metannotate_summ, Dataset)
+  if (replicates == TRUE) {
+    metannotate_summ <- dplyr::group_by(metannotate_summ, Dataset, replicate)
+  } else if (replicates == FALSE) {
+    metannotate_summ <- dplyr::group_by(metannotate_summ, Dataset)
+  } else {
+    stop("'replicates' must be either 'TRUE' or 'FALSE'; you provided '", replicates, "'. Exiting...")
+  }
   
   if (collapsed == FALSE) {
     
@@ -28,6 +36,9 @@ summarize_total_reads <- function(metannotate_data, gene = "rpoB", collapsed = F
     metannotate_summ <- dplyr::summarise(metannotate_summ, hits = sum(hits))
     
   }
+
+  # Cleanup
+  metannotate_summ <- dplyr::ungroup(metannotate_summ)
   
   return(metannotate_summ)
 }
@@ -37,15 +48,13 @@ summarize_total_reads <- function(metannotate_data, gene = "rpoB", collapsed = F
 #' @param metannotate_data Tibble of metannotate data
 #' @param format Character vector (length 1) of either 'wide' or 'long' (tidyr terminology)
 #' for the style of output table
-#' @param collapsed Logical (length 1) - has the table already been collapsed to a taxonomy rank?
-#' If TRUE, then the function will sum the "hits" column instead of a simple count.
 #' @return Tibble of summarized hit counts, wide format
 #' @keywords internal
-summarize_total_reads_all_genes <- function(metannotate_data, format = "wide", collapsed = FALSE) {
+summarize_total_reads_all_genes <- function(metannotate_data, format = "wide", ...) {
   
   # Generate summary for all genes
   gene_summaries <- lapply(unique(metannotate_data$HMM.Family), function(x) {
-    summarize_total_reads(metannotate_data, gene = x, collapsed = collapsed) %>%
+    summarize_total_reads(metannotate_data, gene = x, ...) %>%
       tibble::add_column(gene = x)
   }) %>%
     dplyr::bind_rows()
@@ -101,10 +110,11 @@ filter_by_evalue <- function(metannotate_data, evalue = 1e-10) {
   
   # Calculate % change
   pseudo_count <- 1e-10 # To prevent divide-by-zero errors
-  read_counts$percent_change <- ((dplyr::select(read_counts$evalue_filtered_data, -Dataset) - 
-                                    dplyr::select(read_counts$original_data, -Dataset)) / 
-                                   (dplyr::select(read_counts$original_data, -Dataset) + pseudo_count) * 100) %>%
+  read_counts$percent_change <- ((dplyr::select(read_counts$evalue_filtered_data, -Dataset, -replicate) -
+                                    dplyr::select(read_counts$original_data, -Dataset, -replicate)) /
+                                   (dplyr::select(read_counts$original_data, -Dataset, -replicate) + pseudo_count) * 100) %>%
     round(digits = 1) %>%
+    tibble::add_column(replicate = dplyr::pull(read_counts$original_data, replicate), .before = 1) %>%
     tibble::add_column(Dataset = dplyr::pull(read_counts$original_data, Dataset), .before = 1)
   
   output_list <- list(metannotate_data, read_counts)

@@ -39,7 +39,7 @@ choose_discrete_colour_scale <- function(number_of_entries) {
 generate_plotting_colours <- function(metannotate_data) {
   
   plotting_colour_data <- dplyr::ungroup(metannotate_data) %>%
-    dplyr::select(-percent_abundance, -Dataset, -HMM.Family) %>%
+    dplyr::select(-percent_abundance, -percent_abundance_sd, -Dataset, -HMM.Family) %>%
     unique() %>%
     dplyr::arrange_all() # Sort by domain, phylum, and so on (in that order)
 

@@ -4,20 +4,13 @@
 \alias{summarize_total_reads_all_genes}
 \title{Counts all HMM hits for all genes in the metannotate dataset}
 \usage{
-summarize_total_reads_all_genes(
-  metannotate_data,
-  format = "wide",
-  collapsed = FALSE
-)
+summarize_total_reads_all_genes(metannotate_data, format = "wide", ...)
 }
 \arguments{
 \item{metannotate_data}{Tibble of metannotate data}
 
 \item{format}{Character vector (length 1) of either 'wide' or 'long' (tidyr terminology)
 for the style of output table}
-
-\item{collapsed}{Logical (length 1) - has the table already been collapsed to a taxonomy rank?
-If TRUE, then the function will sum the "hits" column instead of a simple count.}
 }
 \value{
 Tibble of summarized hit counts, wide format

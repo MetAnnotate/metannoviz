@@ -35,7 +35,7 @@ read_metannotate_data <- function(metannotate_table_filename) {
 #' @param hmm_info_filename File to optionally write HMM information to
 #' @param dataset_info_filename File to optionally write dataset information to
 #' @return List of two tibbles: hmm_info and dataset_info; user can fill these out
-#' @keywords internal
+#' @export
 create_setup_templates <- function(metannotate_data, write_tables = FALSE,
                                    hmm_info_filename = "hmm_info_template.tsv",
                                    dataset_info_filename = "dataset_info_template.tsv") {
@@ -110,7 +110,10 @@ map_naming_information <- function(metannotate_data, hmm_naming_info_filename,
   # Remove elements of the metannotate table not in the naming info tables
   metannotate_data <- dplyr::filter(metannotate_data, (HMM.Family %in% hmm_info$raw_name) &
                                       (Dataset %in% dataset_info$raw_name))
-  
+
+  # Create a unique dataset ID column for handling any replicates
+  metannotate_data$replicate <- metannotate_data$Dataset
+
   # Order elements based on row names and rename
   # N.B., levels = unique(...) was used for applying the factor in case the user wanted to combine two types of data
   #       (e.g., R1 and R2 reads) to have the same name.

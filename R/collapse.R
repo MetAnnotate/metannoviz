@@ -16,7 +16,7 @@ collapse_by_taxon <- function(metannotate_data, taxon = "Family") {
   # [4] "HMM.E.val"                    "Aligned.Length"               "Closest.Homolog"
   # [7] "X.id.of.Closest.Homolog"      "Closest.Homolog.Species"      "Closest.Homolog.Genus"
   # [10] "Closest.Homolog.Family"       "Closest.Homolog.Order"        "Closest.Homolog.Class"
-  # [13] "Closest.Homolog.Phylum"       "Closest.Homolog.Superkingdom" "HMM_length"
+  # [13] "Closest.Homolog.Phylum"       "Closest.Homolog.Superkingdom" "replicate"  "HMM_length"
 
   # Check if user-supplied taxonomy is correct
   if ((tolower(taxon) %in% dplyr::pull(TAXONOMY_NAMING, taxonomy)) == FALSE) {
@@ -27,7 +27,7 @@ collapse_by_taxon <- function(metannotate_data, taxon = "Family") {
   # Determine the taxonomy columns to keep while summarizing (should be everything above the chosen rank)
   taxon_number <- match(x = tolower(taxon), table = TAXONOMY_NAMING$taxonomy)
   metannotate_taxa_to_keep <- TAXONOMY_NAMING$metannotate_colnames[1:taxon_number]
-  colnames_to_keep <- append(c("Dataset", "HMM.Family", "HMM_length"),
+  colnames_to_keep <- append(c("Dataset", "replicate", "HMM.Family", "HMM_length"),
                              metannotate_taxa_to_keep)
 
   # Summarize the table, keeping all taxonomic ranks above the desired cutoff
