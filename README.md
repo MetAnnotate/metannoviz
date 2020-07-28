@@ -1,5 +1,5 @@
 # metannoviz
-[![GitHub release](https://img.shields.io/badge/Version-1.0.2-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
+[![GitHub release](https://img.shields.io/badge/Version-1.1.0-blue.svg)](https://github.com/MetAnnotate/metannoviz/releases)
 
 A simple R package to process output from [MetAnnotate](http://github.com/metannotate/metannotate)
 
@@ -21,8 +21,8 @@ The restart R issue (I think) is the same as described [here](https://github.com
 
 Here are some more nuanced `devtools` commands to get a specific code version:
 ```R
-# Rather than getting the latest release, get a release with a specific version number, e.g., v1.0.2
-devtools::install_github("metannotate/metannoviz@v1.0.2")
+# Rather than getting the latest release, get a release with a specific version number, e.g., v1.1.0
+devtools::install_github("metannotate/metannoviz@v1.1.0")
 
 # For the latest (but not necessarily stable!) features, install from the unreleased master branch of the repo
 devtools::install_github("metannotate/metannoviz@master")
