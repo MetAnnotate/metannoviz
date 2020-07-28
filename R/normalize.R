@@ -40,9 +40,9 @@ normalize <- function(metannotate_data, normalizing_HMM = "rpoB") {
   total_hits <- summarize_total_reads_all_genes(metannotate_data, format = "wide", collapsed = TRUE)
   
   # Join the normalizing HMM column onto the main table
-  total_hits_join <- dplyr::select(total_hits, Dataset, all_of(normalizing_HMM)) %>%
+  total_hits_join <- dplyr::select(total_hits, Dataset, replicate, all_of(normalizing_HMM)) %>%
     dplyr::rename(normalizing_HMM_total_hits = normalizing_HMM)
-  metannotate_data <- dplyr::left_join(metannotate_data, total_hits_join, by = "Dataset")
+  metannotate_data <- dplyr::left_join(metannotate_data, total_hits_join, by = c("Dataset", "replicate"))
   
   # Normalize metannotate table
   metannotate_data$hits <- metannotate_data$hits /
@@ -54,8 +54,9 @@ normalize <- function(metannotate_data, normalizing_HMM = "rpoB") {
     dplyr::rename(percent_abundance = hits)
   
   ### Collect overall summary stats for the normalization
-  total_hits_normalized <- (dplyr::select(total_hits, -Dataset) /
+  total_hits_normalized <- (dplyr::select(total_hits, -Dataset, -replicate) /
     dplyr::pull(total_hits, normalizing_HMM) * 100) %>%
+    tibble::add_column(replicate = dplyr::pull(total_hits, replicate), .before = 1) %>%
     tibble::add_column(Dataset = dplyr::pull(total_hits, Dataset), .before = 1)
   
   output_list <- list(metannotate_data, total_hits_normalized)
@@ -79,7 +80,7 @@ normalize <- function(metannotate_data, normalizing_HMM = "rpoB") {
 #' You won't notice much of a different between these modes unless one of your HMMs has very few hits and you want to
 #' show some of the taxa that were hit. This would be a good time to use 'within_HMM'.
 #' @return List of two:
-#' - Tibble of metannotate data; 'hits' has now been changed to 'percent_abundance' and is double-normalized
+#' - Tibble of metannotate data, with 'percent_abundance' and 'percent_abundance_sd'
 #' - Tibble summarizing total normalized counts for genes
 #' @export
 filter_by_abundance <- function(metannotate_data, top_x, percent_mode = "within_sample") {

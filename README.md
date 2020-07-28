@@ -166,6 +166,8 @@ You need to fill in:
 - `Dataset`: The readable name you want to give the HMM (e.g., rpoB)
 - The _order_ of the datasets in this table dictates their order in the output plot
 - You can optionally _omit_ datasets you aren't interested in from the table. They will be dropped during data processing.
+- Have replicates? Give any replicates the same 'Dataset' name, and means with standard deviations will be auto-calculated.
+  - Note that metannoviz default plots don't handle error bars, but the raw data from the plots can be custom-plotted by you downstream.
 
 Example filled out table (note how I also moved around and deleted some rows, and even used some "special characters" in the Dataset names):
 
@@ -231,7 +233,12 @@ between-HMM comparisons that this script outputs. Within HMM comparisons are lik
 comparisons may be biased. So be careful before saying that one gene is more/less prevalent than another if the #s are 
 close.
 Once normalization is finished, the function prints some normalization stats to the screen for the user's interest.
-5. _Filters_ out low relative abundance taxa, for plotting purposes.
+5. _Combines any replicates_ in your data (i.e., samples with the same `Dataset` name in the info file you provided). 
+The code calculates the average normalized abundance for each taxon in each Dataset, along with standard deviations. 
+Note that standard deviations are not plotted in the default metannoviz plots -- if you want to view or visualize 
+these data, you will need to export the data as a table, for example via `explore(metannotate_data_mapped)$data`, 
+and then produce a custom plot.
+6. _Filters_ out low relative abundance taxa, for plotting purposes.
 - `top_x`: if >=1 (e.g., 10), then the script keeps the top __ most abundant taxa within each sample for plotting. 
 If <1 (e.g., 0.02), then the script keeps all taxa of __ (e.g., 2%) proportional abundance or higher within each 
 sample for plotting.
@@ -243,7 +250,7 @@ with __ proportional abundance or higher _based on the proportional abundance of
 case where `within_HMM` is helpful is when one functional gene HMM accounts for a very small proportion of the total 
 hits in the dataset, but you still want to see what taxa are there. Play around with these settings yourself to test 
 them out.
-6. _Plots_ the data. Can do this either as a "bar" plot or a "bubble" plot, as defined in `plot_type`. If you want to 
+7. _Plots_ the data. Can do this either as a "bar" plot or a "bubble" plot, as defined in `plot_type`. If you want to 
 make the plot look more beautiful, you can use the `colouring_template_filename` feature described below.
 
 Play around with the script parameters until you are satisfied. Then, when you want to make a finalized plot, improve 
@@ -393,13 +400,14 @@ metannotate_data_mapped <- map_naming_information(metannotate_data, hmm_naming_i
 
 ### Now things start to look different
 
-# Pre-process the data (three functions here)
+# Pre-process the data (four functions here)
 metannotate_data_filtered <- filter_by_evalue(metannotate_data_mapped, evalue = 1e-10)
-metannotate_data_collapsed <- collapse_by_taxon(metannotate_data_filtered, taxon = "Family")
+metannotate_data_collapsed <- collapse_by_taxon(metannotate_data_filtered[[1]], taxon = "Family")
 metannotate_data_normalized_list <- normalize(metannotate_data_collapsed, normalizing_HMM = "rpoB")
+metannotate_data_normalized_list <- combine_replicates(metannotate_data_normalized_list)
 
 # Plot the data
-metannotate_plot <- visualize(metannotate_data_normalized_list , colouring_template_filename = NA,
+metannotate_plot <- visualize(metannotate_data_normalized_list, colouring_template_filename = NA,
                               top_x = NA, percent_mode = "within_sample", normalizing_HMM = "auto",
                               plot_normalizing_HMM = TRUE, dump_raw_data = FALSE, plot_type = "bar",
                               space = "free", bubble_size_range = c(1,20), alpha = 0.8, bubble_labels = TRUE)
@@ -413,4 +421,4 @@ outside of the regular workflow. More documentation coming here as the script is
 ## Future development plans
 - Enhanced advanced workflow (e.g., better subdivision of steps for doing multiple different types of analyses)
 - Example plots and data
-- Be able to handle replicates
+- Enhanced handling of replicates

@@ -4,14 +4,21 @@
 \alias{summarize_total_reads}
 \title{Counts all HMM hits for the gene of interest}
 \usage{
-summarize_total_reads(metannotate_data, gene = "rpoB", collapsed = FALSE)
+summarize_total_reads(
+  metannotate_data,
+  gene = "rpoB",
+  collapsed = FALSE,
+  replicates = TRUE
+)
 }
 \arguments{
 \item{metannotate_data}{Tibble of metannotate data}
 
 \item{gene}{Character vector (length 1) of a gene to summarize}
 
-\item{collapsed}{Logical (length 1) - has the table already been collapsed to a taxonomy rank?
+\item{collapsed}{Logical (length 1) - has the table already been collapsed to a taxonomy rank?}
+
+\item{replicates}{Logical (length 1) - does the table include a 'replicates' column?
 If TRUE, then the function will sum the "hits" column instead of a simple count.}
 }
 \value{
